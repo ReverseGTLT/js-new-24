@@ -69,7 +69,7 @@ function getDefaultMarks() {
 }
 function getHtml(student) {
     return `
-    <tr id="${student.id}">
+    <tr id="${student.id}" class="student-item">
         <th>${student.name}</th>
             ${student.marks.map((mark) => `<td><input class="input-student" value=${mark}></td>`)
             .join("")}
