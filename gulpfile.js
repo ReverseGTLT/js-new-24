@@ -21,7 +21,7 @@ function copyJsTask() {
         'src/index.js',
     ])
         .pipe(concat('all.js'))
-        .pipe(uglify())
+        // .pipe(uglify())
         .pipe(dest('./dist'))
 }
 function serveTask(done) {
@@ -31,7 +31,7 @@ function serveTask(done) {
         }
     });
     watch('./src/index.html', series (copyHtmlTask, browserReloadTask));
-    watch('./src/index.css', series (copyCssTask, browserReloadTask));
+    watch('./src/style.css', series (copyCssTask, browserReloadTask));
     watch('./src/*js', series (copyJsTask, browserReloadTask));
     done();
 }

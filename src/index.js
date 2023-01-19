@@ -20,7 +20,7 @@ function renderStudent(student) {
     $table[0].insertAdjacentHTML('beforeend' ,studentEl);
 }
 function renderList(notesList) {
-    $table[0].insertAdjacentHTML('beforeend', notesList.map(getHtml));
+    $table[0].insertAdjacentHTML('beforeend', notesList.map(getHtml).join(''));
 }
 function onEditStudent(e) {
     const $student = e.target.closest(INPUT_CLOSEST);
@@ -31,7 +31,8 @@ function onEditStudent(e) {
 function getEditedMarksArr(el) {
     const marksArr = []
     for (let i = 3; i < 13; i++) {
-        marksArr.push(el.childNodes[i].childNodes[0].value)
+        marksArr.push(+el.childNodes[i].childNodes[0].value)
+
     }
     return marksArr
 }
@@ -48,6 +49,7 @@ function setData(data) {
     return list = data;
 }
 function onAddStudentBtnClick(e) {
+
     const previousElValue = e.target.previousElementSibling.value;
     if (previousElValue || previousElValue !== '') {
         createNote({

@@ -1,14 +1,10 @@
-body {
-    background-color: #000;
-}
+
 .container {
     max-width: 90%;
     margin-inline: auto;
-    background-color: black;
+
 }
-.table tr {
-    margin-bottom: 30px;
-}
+
 .form {
     padding-top: 20px;
     display: flex;
@@ -22,8 +18,4 @@ input:not([type="button"]) {
 
 .form input:not([type="button"]) {
     width: 200px;
-}
-
-tr {
-    color: white;
 }
