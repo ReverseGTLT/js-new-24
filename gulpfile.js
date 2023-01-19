@@ -21,7 +21,7 @@ function copyJsTask() {
         'src/index.js',
     ])
         .pipe(concat('all.js'))
-        // .pipe(uglify())
+        .pipe(uglify())
         .pipe(dest('./dist'))
 }
 function serveTask(done) {
