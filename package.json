@@ -1,5 +1,33 @@
 {
   "dependencies": {
     "jquery": "^3.6.3"
-  }
+  },
+  "name": "js-new-24",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
+  "devDependencies": {
+    "browser-sync": "^2.27.11",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-cli": "^2.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^5.1.0",
+    "gulp-uglify": "^3.0.2"
+  },
+  "scripts": {
+    "build": "gulp build",
+    "start": "gulp start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReverseGTLT/js-new-24.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ReverseGTLT/js-new-24/issues"
+  },
+  "homepage": "https://github.com/ReverseGTLT/js-new-24#readme",
+  "description": ""
 }
