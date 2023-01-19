@@ -1,13 +1,15 @@
 const DELETE_BTN = '#delete';
-const ADD_STUDENT = '#addStudent';
-const EDIT_STUDENT = '.input-student'
+const STUDENT_INPUT = '.input-student'
 const INPUT_CLOSEST = 'tr'
+
 const $form = $('#form')
-    .on('click', ADD_STUDENT, onAddStudentBtnClick)
+    .on('submit', onAddStudentBtnClick)
+
 const $table = $('#table')
     .on('click', DELETE_BTN, onDeleteStudent)
-    .on('focusout', EDIT_STUDENT, onEditStudent)
-let list = []
+    .on('focusout', STUDENT_INPUT, onEditStudent)
+
+let studentList = []
 
 init();
 function init() {
@@ -16,60 +18,63 @@ function init() {
         .then(renderList)
 }
 function renderStudent(student) {
-    const studentEl = getHtml(student);
+    const studentEl = getHtmlOneStudent(student);
     $table[0].insertAdjacentHTML('beforeend' ,studentEl);
 }
-function renderList(notesList) {
-    $table[0].insertAdjacentHTML('beforeend', notesList.map(getHtml).join(''));
+function renderList(studentList) {
+    $table[0].insertAdjacentHTML('beforeend', studentList
+        .map(getHtmlOneStudent).join(''));
 }
 function onEditStudent(e) {
-    const $student = e.target.closest(INPUT_CLOSEST);
+    const $student = getStudentInput(e);
     const marksArr = getEditedMarksArr($student)
     const studentId = +getStudentItemId($student);
     StudentsApi.editList(studentId, {marks: marksArr})
 }
 function getEditedMarksArr(el) {
-    const marksArr = []
-    for (let i = 3; i < 13; i++) {
-        marksArr.push(+el.childNodes[i].childNodes[0].value)
-
-    }
-    return marksArr
+    return  Array.from(el.querySelectorAll(STUDENT_INPUT))
+        .map(input => Number(input.value))
 }
-function getStudentItemId($studentItem) {
-    return $studentItem.id
+function getStudentInput(student) {
+    return student.target.closest(INPUT_CLOSEST);
+}
+function getStudentItemId(studentItem) {
+    return studentItem.id
 }
 function onDeleteStudent(id) {
-    const parentId = id.target.closest(INPUT_CLOSEST);
-    parentId.remove();
-    setData(list.filter(item => item.id !== parentId.id));
-    StudentsApi.deleteList(parentId.id);
+    const parentId = getStudentInput(id)
+    setData(studentList.filter(student => student.id !== parentId.id));
+    StudentsApi.deleteList(parentId.id)
+        .then(()=> parentId.remove())
 }
 function setData(data) {
-    return list = data;
+    return studentList = data;
 }
 function onAddStudentBtnClick(e) {
-
-    const previousElValue = e.target.previousElementSibling.value;
-    if (previousElValue || previousElValue !== '') {
-        createNote({
+    e.preventDefault();
+    const previousElValue = getPreviousElValue(e);
+    if (previousElValue !== '') {
+        createStudent({
             name: previousElValue,
             marks: getDefaultMarks(),
         });
         resetForm()
     }
 }
-function createNote(note) {
-    StudentsApi.createList(note)
-        .then((newNote) => {
-            list.push(newNote);
-            renderStudent(newNote);
+function getPreviousElValue(e) {
+    return e.target.childNodes[1].value
+}
+function createStudent(data) {
+    StudentsApi.createList(data)
+        .then((newData) => {
+            studentList.push(newData);
+            renderStudent(newData);
         });
 }
 function getDefaultMarks() {
     return new Array(10).fill(0);
 }
-function getHtml(student) {
+function getHtmlOneStudent(student) {
     return `
     <tr id="${student.id}" class="student-item">
         <th>${student.name}</th>
